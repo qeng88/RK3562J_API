@@ -1,0 +1,34 @@
+# ========== Qt 自动生成文件（必须忽略） ==========
+Makefile
+Makefile.*
+build-*/
+cmake-build-*/
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qmake.stash
+
+# ========== 编译输出文件 ==========
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+
+# ========== 日志、临时文件 ==========
+*.log
+*.core
+*.debug
+*.swp
+*.bak
+*.tmp
+.DS_Store
+
+# ========== 压缩文件 ==========
+*.zip
+*.tar
+*.rar
+
+# ========== 忽略目录 ==========
+
+
+# ========== 库文件 ==========
+*.so
