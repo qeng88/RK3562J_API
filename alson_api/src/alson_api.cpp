@@ -1,5 +1,13 @@
 #include "alson_api.h"
-#include "canworker.h"  // 内部包含，不对外暴露
+#include "canworker.h"
+#include "devicesinfo.h"
+
+class Alson_apiPrivate
+{
+public:
+    CanWorker *m_worker = nullptr;
+    DevicesInfo *m_info = nullptr;
+};
 
 // 静态成员初始化
 Alson_api* Alson_api::m_instance = nullptr;
@@ -20,66 +28,75 @@ void Alson_api::destroy()
 
 Alson_api::Alson_api(QObject *parent)
     : QObject(parent)
-    , m_worker(new CanWorker(this))
+    , d(new Alson_apiPrivate)
 {
+    d->m_worker = new CanWorker(this);
+    d->m_info = new DevicesInfo(this);
+
     // 转发信号
-    connect(m_worker, &CanWorker::frameReceived,
-            this, &Alson_api::frameReceived);
-    connect(m_worker, &CanWorker::errorOccurred,
-            this, &Alson_api::errorOccurred);
-    connect(m_worker, &CanWorker::connected,
-            this, &Alson_api::connected);
-    connect(m_worker, &CanWorker::disconnected,
-            this, &Alson_api::disconnected);
-    connect(m_worker, &CanWorker::frameSent,
-            this, &Alson_api::frameSent);
+    connect(d->m_worker, &CanWorker::frameReceived, this, &Alson_api::frameReceived);
+    connect(d->m_worker, &CanWorker::errorOccurred, this, &Alson_api::errorOccurred);
+    connect(d->m_worker, &CanWorker::connected, this, &Alson_api::connected);
+    connect(d->m_worker, &CanWorker::disconnected, this, &Alson_api::disconnected);
+    connect(d->m_worker, &CanWorker::frameSent, this, &Alson_api::frameSent);
 }
 
 Alson_api::~Alson_api()
 {
-    // m_worker 会随父对象自动销毁
+    delete d;
 }
 
 bool Alson_api::startCan(const QString &interface, quint32 bitrate)
 {
-    return m_worker->startCan(interface, bitrate);
+    return d->m_worker->startCan(interface, bitrate);
 }
 
 void Alson_api::stopCan(const QString &interface)
 {
-    m_worker->stopCan(interface);
+    d->m_worker->stopCan(interface);
 }
 
 void Alson_api::stopAllCan()
 {
-    m_worker->stopAllCan();
+    d->m_worker->stopAllCan();
 }
 
 void Alson_api::sendFrame(const QString &interface, uint id,
                           const QByteArray &data, bool isExtended)
 {
-    m_worker->sendFrame(interface, id, data, isExtended);
+    d->m_worker->sendFrame(interface, id, data, isExtended);
 }
 
 void Alson_api::addPeriodicFrame(const QString &interface, uint id,
                                  const QByteArray &data, bool isExtended,
                                  int periodMs, int offsetMs)
 {
-    m_worker->addPeriodicFrame(interface, id, data, isExtended, periodMs, offsetMs);
+    d->m_worker->addPeriodicFrame(interface, id, data, isExtended, periodMs, offsetMs);
 }
 
 void Alson_api::updatePeriodicFrameData(const QString &interface, uint id,
                                         const QByteArray &data, bool isExtended)
 {
-    m_worker->updatePeriodicFrameData(interface, id, data, isExtended);
+    d->m_worker->updatePeriodicFrameData(interface, id, data, isExtended);
 }
 
 void Alson_api::removePeriodicFrame(const QString &interface, uint id, bool isExtended)
 {
-    m_worker->removePeriodicFrame(interface, id, isExtended);
+    d->m_worker->removePeriodicFrame(interface, id, isExtended);
 }
 
 void Alson_api::clearPeriodicFrames(const QString &interface)
 {
-    m_worker->clearPeriodicFrames(interface);
+    d->m_worker->clearPeriodicFrames(interface);
+}
+
+
+QString Alson_api::readDeviceInfo(const QString &type)
+{
+    return d->m_info->readDeviceInfo(type);
+}
+
+QString Alson_api::readApiVersion()
+{
+    return "Alson_api 1.0.0";
 }

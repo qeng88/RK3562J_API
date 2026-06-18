@@ -21,8 +21,11 @@ Widget::~Widget()
 void Widget::Functions()
 {
     QTimer::singleShot(2000,this,[this](){
-        Can();
+        Can();  // 硬件没有准备好，需要延时启动
+
     });
+
+    DevicesInfo();
 }
 
 void Widget::Can()
@@ -53,7 +56,7 @@ void Widget::Can()
     // CAN是否已经连接，连接成功后才能进行数据发送
     QObject::connect(alson, &Alson_api::connected,
                      [this](const QString &interface) {
-        qDebug() << "CAN 已连接:" << interface;
+        //qDebug() << "CAN 已连接:" << interface;
 
         if(interface == "can0"){
             QByteArray data = QByteArray::fromHex("01020304"); // 发送测试帧
@@ -73,7 +76,25 @@ void Widget::Can()
     });
 
     // 启动 CAN 接口
-    if (alson->startCan("can0", 250000)) qDebug() << "can0 启动成功";
-    if (alson->startCan("can1", 500000)) qDebug() << "can1 启动成功";
+    alson->startCan("can0", 250000);
+    alson->startCan("can1", 500000);
+}
+
+void Widget::DevicesInfo()
+{
+    qDebug() << "错误输入:" << alson->readDeviceInfo("31313");
+    qDebug() << "板卡型号:" << alson->readDeviceInfo("板卡型号");
+    qDebug() << "CPU核心数:" << alson->readDeviceInfo("CPU核心数");
+    qDebug() << "CPU架构:" << alson->readDeviceInfo("CPU架构");
+    qDebug() << "CPU频率:" << alson->readDeviceInfo("CPU频率");
+    qDebug() << "DDR容量:" << alson->readDeviceInfo("DDR容量");
+    qDebug() << "eMMC容量:" << alson->readDeviceInfo("eMMC容量");
+    qDebug() << "系统版本:" << alson->readDeviceInfo("系统版本");
+    qDebug() << "设备序列号:" << alson->readDeviceInfo("设备序列号");
+    qDebug() << "MAC地址:" << alson->readDeviceInfo("MAC地址");
+    qDebug() << "网络节点状态:" << alson->readDeviceInfo("网络节点状态");
+    qDebug() << "CPU负载率:" << alson->readDeviceInfo("CPU负载率");
+    qDebug() << "库版本:" << alson->readApiVersion();
+    qDebug() << Qt::endl;
 }
 

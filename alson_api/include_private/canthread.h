@@ -12,8 +12,6 @@
 #include <atomic>
 #include <QProcess>
 
-#include "alson_api_global.h"
-
 /**
  * @brief 周期性CAN帧结构体
  * 
@@ -49,7 +47,7 @@ struct CanDeviceInfo
  * 继承自QObject，通常移动到独立的QThread中执行
  * 负责实际CAN设备的打开/关闭、帧收发、周期性帧调度等底层操作
  */
-class ALSON_API_EXPORT CanThread : public QObject
+class CanThread : public QObject
 {
     Q_OBJECT
 

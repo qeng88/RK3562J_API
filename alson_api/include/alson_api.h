@@ -9,8 +9,7 @@
 #  define ALSON_API_EXPORT Q_DECL_IMPORT
 #endif
 
-
-class CanWorker;
+class Alson_apiPrivate;
 
 class ALSON_API_EXPORT Alson_api : public QObject
 {
@@ -27,6 +26,7 @@ public:
      */
     static void destroy();
 
+    // CAN
     /**
      * @brief 启动CAN接口
      * @param interface CAN接口名称（如 "can0"）
@@ -53,8 +53,7 @@ public:
      * @param data 数据（最多8字节）
      * @param isExtended 是否为扩展帧
      */
-    void sendFrame(const QString &interface, uint id,
-                   const QByteArray &data, bool isExtended = false);
+    void sendFrame(const QString &interface, uint id, const QByteArray &data, bool isExtended = false);
 
     /**
      * @brief 添加周期性发送帧
@@ -65,9 +64,7 @@ public:
      * @param periodMs 发送周期（毫秒）
      * @param offsetMs 初始偏移（毫秒）
      */
-    void addPeriodicFrame(const QString &interface, uint id,
-                          const QByteArray &data, bool isExtended,
-                          int periodMs, int offsetMs = 0);
+    void addPeriodicFrame(const QString &interface, uint id, const QByteArray &data, bool isExtended, int periodMs, int offsetMs = 0);
 
     /**
      * @brief 更新周期性帧数据
@@ -76,8 +73,7 @@ public:
      * @param data 新数据
      * @param isExtended 是否为扩展帧
      */
-    void updatePeriodicFrameData(const QString &interface, uint id,
-                                 const QByteArray &data, bool isExtended = false);
+    void updatePeriodicFrameData(const QString &interface, uint id, const QByteArray &data, bool isExtended = false);
 
     /**
      * @brief 移除周期性帧
@@ -93,29 +89,31 @@ public:
      */
     void clearPeriodicFrames(const QString &interface);
 
+    //系统信息
+    /**
+     * @type 板卡型号 CPU核心数 CPU架构 CPU频率 DDR容量 eMMC容量 系统版本 设备序列号 MAC地址 网络节点状态 CPU负载率
+     */
+    QString readDeviceInfo(const QString &type);
+
+    /**
+     * @return 库版本
+     */
+    QString readApiVersion();
+
 signals:
-    // 接收到CAN帧信号
-    void frameReceived(const QString &interface, uint id,
-                       const QByteArray &data, bool isExtended);
-
-    // 错误发生信号
-    void errorOccurred(const QString &interface, const QString &error);
-
-    // 设备连接信号
-    void connected(const QString &interface);
-
-    // 设备断开信号
-    void disconnected(const QString &interface);
-
-    // 帧发送完成信号
-    void frameSent(const QString &interface, bool success, uint id);
+    // CAN
+    void frameReceived(const QString &interface, uint id,const QByteArray &data, bool isExtended); // 接收到CAN帧信号
+    void errorOccurred(const QString &interface, const QString &error); // 错误发生信号
+    void connected(const QString &interface); // 设备连接信号
+    void disconnected(const QString &interface); // 设备断开信号
+    void frameSent(const QString &interface, bool success, uint id); // 帧发送完成信号
 
 private:
     explicit Alson_api(QObject *parent = nullptr);
-    ~Alson_api();
+    ~Alson_api() override;
 
     static Alson_api *m_instance;
-    CanWorker *m_worker;  // 隐藏的内部实现
+    Alson_apiPrivate *d = nullptr;
 };
 
 #endif // ALSON_API_H

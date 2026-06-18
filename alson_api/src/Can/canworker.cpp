@@ -23,8 +23,9 @@ bool CanWorker::configureSocketCan(const QString &interface, quint32 bitrate)
     const char *dev = ifname.constData();
 
     if (can_do_stop(dev) < 0) {
-        qWarning() << "CAN down 失败，可能接口本来就是 down:"
-                   << interface << strerror(errno);
+        const QString err = QString::fromLocal8Bit(strerror(errno));
+        qWarning() << "CAN down 失败，可能接口本来就是 down:" << interface << strerror(errno);
+        emit errorOccurred(interface, QString("CAN down 失败，可能接口本来就是 down: %1").arg(err));
     }
 
     if (can_set_bitrate(dev, bitrate) < 0) {
@@ -41,7 +42,7 @@ bool CanWorker::configureSocketCan(const QString &interface, quint32 bitrate)
         return false;
     }
 
-    qInfo() << "libsocketcan 配置" << interface << "波特率" << bitrate << "成功";
+    qInfo() << "can 配置" << interface << "波特率" << bitrate << "成功";
     return true;
 }
 
@@ -51,7 +52,7 @@ bool CanWorker::startCan(const QString &interface, quint32 bitrate)
     if (interface.trimmed().isEmpty()) {
         emit errorOccurred(interface, "CAN接口名为空");
         return false;
-    }
+    }  
 
     {
         QMutexLocker locker(&m_mutex);

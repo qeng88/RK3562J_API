@@ -36,3 +36,10 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt
 !isEmpty(target.path): INSTALLS += target
+
+CONFIG(release, debug|release) {
+    libs.files = /mnt/hgfs/share/Qt/RK3562J_API/demo/lib/libAlson_api.so
+    libs.path = /usr/lib
+
+    INSTALLS += libs
+}

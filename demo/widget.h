@@ -26,6 +26,7 @@ private:
 
     void Functions();
     void Can();
+    void DevicesInfo();
 
 };
 #endif // WIDGET_H

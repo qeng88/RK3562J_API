@@ -9,16 +9,7 @@
 #include <libsocketcan.h>
 #include "canthread.h"
 
-#include "alson_api_global.h"
-
-/**
- * @brief CAN总线工作器类（继承QThread，管理CAN线程）
- * 
- * 继承自QThread，作为CAN线程的管理器
- * 采用请求-信号机制，将用户调用转发到工作线程执行
- * 避免在主线程中直接操作CAN总线造成阻塞
- */
-class ALSON_API_EXPORT CanWorker : public QThread
+class CanWorker : public QThread
 {
     Q_OBJECT
 
