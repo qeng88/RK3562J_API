@@ -26,6 +26,7 @@ INCLUDEPATH += $$PWD/include_private    # 私有内部头文件，仅库内部�
 
 
 SOURCES += \
+    src/Brightness/brightness.cpp \
     src/Can/canthread.cpp \
     src/Can/canworker.cpp \
     src/DevicesInfo/devicesinfo.cpp \
@@ -35,9 +36,11 @@ SOURCES += \
 HEADERS += \
     include/alson_api.h \
     include_private/alson_api_global.h \
+    include_private/brightness.h \
     include_private/canthread.h \
     include_private/canworker.h \
-    include_private/devicesinfo.h
+    include_private/devicesinfo.h \
+    include_private/rtc.h
 
 # 私有依赖库链接（不传递给依赖本库的上层应用）
 LIBS_PRIVATE += -Wl,-Bstatic -L$$PWD/lib -lsocketcan -Wl,-Bdynamic

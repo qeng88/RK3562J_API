@@ -93,12 +93,27 @@ public:
     /**
      * @type 板卡型号 CPU核心数 CPU架构 CPU频率 DDR容量 eMMC容量 系统版本 设备序列号 MAC地址 网络节点状态 CPU负载率
      */
-    QString readDeviceInfo(const QString &type);
+    QString getDeviceInfo(const QString &type);
 
     /**
      * @return 库版本
      */
-    QString readApiVersion();
+    QString getApiVersion();
+
+    //亮度功能
+    /**
+     * @brief 亮度设置
+     * @return 成功返回true
+     */
+    bool setBrightness(int value);
+    /**
+     * @return 返回当前亮度值
+     */
+    int getBrightness() const;
+    /**
+     * @return 返回最大可设亮度值
+     */
+    int getMaxBrightness() const;
 
 signals:
     // CAN

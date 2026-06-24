@@ -1,12 +1,14 @@
 #include "alson_api.h"
 #include "canworker.h"
 #include "devicesinfo.h"
+#include "brightness.h"
 
 class Alson_apiPrivate
 {
 public:
     CanWorker *m_worker = nullptr;
     DevicesInfo *m_info = nullptr;
+    Brightness *m_bright = nullptr;
 };
 
 // 静态成员初始化
@@ -32,6 +34,7 @@ Alson_api::Alson_api(QObject *parent)
 {
     d->m_worker = new CanWorker(this);
     d->m_info = new DevicesInfo(this);
+    d->m_bright = new Brightness(this);
 
     // 转发信号
     connect(d->m_worker, &CanWorker::frameReceived, this, &Alson_api::frameReceived);
@@ -46,6 +49,9 @@ Alson_api::~Alson_api()
     delete d;
 }
 
+/**
+ *@brief CAN
+**/
 bool Alson_api::startCan(const QString &interface, quint32 bitrate)
 {
     return d->m_worker->startCan(interface, bitrate);
@@ -91,12 +97,34 @@ void Alson_api::clearPeriodicFrames(const QString &interface)
 }
 
 
-QString Alson_api::readDeviceInfo(const QString &type)
+/**
+ *@brief 系统信息
+**/
+QString Alson_api::getDeviceInfo(const QString &type)
 {
     return d->m_info->readDeviceInfo(type);
 }
 
-QString Alson_api::readApiVersion()
+QString Alson_api::getApiVersion()
 {
     return "Alson_api 1.0.0";
+}
+
+
+/**
+ *@brief 亮度功能
+**/
+bool Alson_api::setBrightness(int value)
+{
+    return  d->m_bright->writeBrightness(value);
+}
+
+int Alson_api::getBrightness() const
+{
+    return d->m_bright->readBrightness();
+}
+
+int Alson_api::getMaxBrightness() const
+{
+    return d->m_bright->readMaxBrightness();
 }
