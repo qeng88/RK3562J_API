@@ -2,6 +2,7 @@
 #include "canworker.h"
 #include "devicesinfo.h"
 #include "brightness.h"
+#include "rtc.h"
 
 class Alson_apiPrivate
 {
@@ -9,6 +10,7 @@ public:
     CanWorker *m_worker = nullptr;
     DevicesInfo *m_info = nullptr;
     Brightness *m_bright = nullptr;
+    RTC *m_rtc = nullptr;
 };
 
 // 静态成员初始化
@@ -35,6 +37,7 @@ Alson_api::Alson_api(QObject *parent)
     d->m_worker = new CanWorker(this);
     d->m_info = new DevicesInfo(this);
     d->m_bright = new Brightness(this);
+    d->m_rtc = new RTC(this);
 
     // 转发信号
     connect(d->m_worker, &CanWorker::frameReceived, this, &Alson_api::frameReceived);
@@ -127,4 +130,17 @@ int Alson_api::getBrightness() const
 int Alson_api::getMaxBrightness() const
 {
     return d->m_bright->readMaxBrightness();
+}
+
+/**
+ *@brief RTC
+**/
+bool Alson_api::setRTC(const QString &datetime)
+{
+    return d->m_rtc->writeDateTime(datetime);
+}
+
+QString Alson_api::getRTC() const
+{
+    return d->m_rtc->readDateTime();
 }

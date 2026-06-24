@@ -115,6 +115,18 @@ public:
      */
     int getMaxBrightness() const;
 
+    //时间设置
+    /**
+     * @brief 时间设置
+     * @param 固定格式要求 "yyyy-MM-dd HH:mm:ss"  例: "2020-06-01 08:30:00"
+     * @return 成功返回true
+     */
+    bool setRTC(const QString &datetime);
+    /**
+     * @return 返回系统时间
+     */
+    QString getRTC() const;
+
 signals:
     // CAN
     void frameReceived(const QString &interface, uint id,const QByteArray &data, bool isExtended); // 接收到CAN帧信号

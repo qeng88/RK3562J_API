@@ -6,13 +6,153 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1280</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>亮度设置：</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="horizontalSlider">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>20</y>
+     <width>255</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">/* 滑块整体控件背景（整个slider区域底色） */
+/*QSlider {
+    background-color: #f5f5f5;
+    padding: 5px 0;
+}*/
+/* 轨道背景 */
+QSlider::groove:horizontal {
+    height: 14px;        
+    background: #dddddd;
+    border-radius: 7px;
+}
+/* 拖动滑块手柄 */
+QSlider::handle:horizontal {
+    width: 28px;        
+    height: 20px;       
+    margin: -4px 0;      
+    background: #1976d2;
+    border-radius: 10px;
+}
+/* 滑块按下效果 */
+QSlider::handle:horizontal:pressed {
+    background: #0d47a1;
+}
+/*已滑动区域填充颜色*/
+QSlider::sub-page:horizontal {
+    background: #64a8ff; /* 滑过的轨道填充色 */
+    border-radius: 7px;
+}</string>
+   </property>
+   <property name="minimum">
+    <number>1</number>
+   </property>
+   <property name="maximum">
+    <number>255</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>60</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>时间设置：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dateTime">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>60</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>2000-01-01 00:00:00</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CPU负载率：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="cpuused">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>100</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0 %</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>20</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>库版本：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="version">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>20</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>v 0.0.0</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

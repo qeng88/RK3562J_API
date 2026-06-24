@@ -20,6 +20,12 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+public slots:
+    void update();
+
+private slots:
+    void on_horizontalSlider_valueChanged(int value);
+
 private:
     Ui::Widget *ui;
     Alson_api *alson = nullptr;
@@ -27,6 +33,8 @@ private:
     void Functions();
     void Can();
     void DevicesInfo();
+    void Light();
+    void RTC();
 
 };
 #endif // WIDGET_H

@@ -100,6 +100,22 @@ public:
      */
     QString readApiVersion();
 
+    //亮度功能
+    /**
+     * @brief 亮度设置
+     * @return 成功返回true
+     */
+    bool setBrightness(int value);
+    /**
+     * @return 返回当前亮度值
+     */
+    int getBrightness() const;
+
+    /**
+     * @return 返回最大可设亮度值
+     */
+    int getMaxBrightness() const;
+
 signals:
     // CAN
     void frameReceived(const QString &interface, uint id,const QByteArray &data, bool isExtended); // 接收到CAN帧信号

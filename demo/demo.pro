@@ -18,9 +18,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-INCLUDEPATH += $$PWD/include
-DEPENDPATH += $$PWD/include
-LIBS += -L$$PWD/lib -lAlson_api #-lsocketcan
+ALSON_API_LIB = /mnt/hgfs/share/Qt/RK3562J_API/alson_api/lib
+ALSON_API_INC = /mnt/hgfs/share/Qt/RK3562J_API/alson_api/include
+
+INCLUDEPATH += $${ALSON_API_INC}
+DEPENDPATH += $${ALSON_API_INC}
+LIBS += -L$${ALSON_API_LIB} -lAlson_api #-lsocketcan
 
 SOURCES += \
     main.cpp \
@@ -38,7 +41,7 @@ else: unix:!android: target.path = /opt
 !isEmpty(target.path): INSTALLS += target
 
 CONFIG(release, debug|release) {
-    libs.files = /mnt/hgfs/share/Qt/RK3562J_API/demo/lib/libAlson_api.so
+    libs.files = $${ALSON_API_LIB}/libAlson_api.so
     libs.path = /usr/lib
 
     INSTALLS += libs

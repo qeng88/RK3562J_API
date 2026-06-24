@@ -30,6 +30,7 @@ SOURCES += \
     src/Can/canthread.cpp \
     src/Can/canworker.cpp \
     src/DevicesInfo/devicesinfo.cpp \
+    src/RTC/rtc.cpp \
     src/alson_api.cpp
 
 
