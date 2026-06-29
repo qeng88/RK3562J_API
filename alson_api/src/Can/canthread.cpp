@@ -104,7 +104,7 @@ bool CanThread::setupDevice(const QString &interface, quint32 bitrate)
     m_devices.insert(interface, info);
 
     emit connected(interface);
-    qDebug() << "CAN设备已连接:" << interface << "状态:" << device->state();
+    qDebug() << "CAN设备:" << interface << "状态:" << device->state();
     return true;
 }
 

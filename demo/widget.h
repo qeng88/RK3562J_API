@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QDebug>
 #include <QTimer>
+#include <QDateTime>
 
 #include "alson_api.h"
 
@@ -35,6 +36,7 @@ private:
     void DevicesInfo();
     void Light();
     void RTC();
+    void RetainData();
 
 };
 #endif // WIDGET_H

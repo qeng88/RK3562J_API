@@ -31,6 +31,7 @@ SOURCES += \
     src/Can/canworker.cpp \
     src/DevicesInfo/devicesinfo.cpp \
     src/RTC/rtc.cpp \
+    src/Retain/retain.cpp \
     src/alson_api.cpp
 
 
@@ -41,6 +42,7 @@ HEADERS += \
     include_private/canthread.h \
     include_private/canworker.h \
     include_private/devicesinfo.h \
+    include_private/retain.h \
     include_private/rtc.h
 
 # 私有依赖库链接（不传递给依赖本库的上层应用）

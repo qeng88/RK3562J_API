@@ -25,9 +25,10 @@ Widget::~Widget()
 
 void Widget::update()
 {
-    //ui->dateTime->setText(alson->getRTC());
+    ui->dateTime->setText(alson->getRTC());
     ui->cpuused->setText(alson->getDeviceInfo("CPU负载率"));
-    ui->version->setText(alson->getApiVersion());
+    ui->canstatus->setText(alson->getDeviceInfo("CAN状态"));
+    ui->cpuTemp->setText(alson->getDeviceInfo("CPU温度"));
 }
 
 void Widget::Functions()
@@ -35,10 +36,11 @@ void Widget::Functions()
     QTimer::singleShot(2000,this,[this](){
         Can();  // 硬件没有准备好，需要延时启动
 
-        DevicesInfo();
         Light();
         RTC();
+        RetainData();
     });
+    DevicesInfo();
 }
 
 void Widget::Can()
@@ -106,25 +108,41 @@ void Widget::Can()
     alson->startCan("can0", 250000);
     alson->startCan("can1", 500000);
 
-    qDebug() << Qt::endl;
+    qDebug() << "";
 }
 
 void Widget::DevicesInfo()
 {
-    qDebug() << "错误输入:" << alson->getDeviceInfo("31313");
-    qDebug() << "板卡型号:" << alson->getDeviceInfo("板卡型号");
+    qDebug() << "错误示例:" << alson->getDeviceInfo("31313");
+    qDebug() << "芯片型号:" << alson->getDeviceInfo("芯片型号");
     qDebug() << "CPU核心数:" << alson->getDeviceInfo("CPU核心数");
     qDebug() << "CPU架构:" << alson->getDeviceInfo("CPU架构");
     qDebug() << "CPU频率:" << alson->getDeviceInfo("CPU频率");
-    qDebug() << "DDR容量:" << alson->getDeviceInfo("DDR容量");
-    qDebug() << "eMMC容量:" << alson->getDeviceInfo("eMMC容量");
+    qDebug() << "内存容量:" << alson->getDeviceInfo("内存容量");
+    qDebug() << "闪存容量:" << alson->getDeviceInfo("闪存容量");
     qDebug() << "系统版本:" << alson->getDeviceInfo("系统版本");
     qDebug() << "设备序列号:" << alson->getDeviceInfo("设备序列号");
     qDebug() << "MAC地址:" << alson->getDeviceInfo("MAC地址");
     qDebug() << "网络节点状态:" << alson->getDeviceInfo("网络节点状态");
     qDebug() << "CPU负载率:" << alson->getDeviceInfo("CPU负载率");
+    qDebug() << "";
+
+    qDebug() << "料号:" << alson->getDeviceInfo("料号");
+    ui->pn->setText(alson->getDeviceInfo("料号"));
+    qDebug() << "驱动版本:" << alson->getDeviceInfo("驱动版本");
+    ui->driverversion->setText(alson->getDeviceInfo("驱动版本"));
+    qDebug() << "构建时间:" << alson->getDeviceInfo("构建时间");
+    qDebug() << "屏幕分辨率:" << alson->getDeviceInfo("屏幕分辨率");
+    ui->resolution->setText(alson->getDeviceInfo("屏幕分辨率"));
+    qDebug() << "可用空间:" << alson->getDeviceInfo("可用空间");
+    qDebug() << "BSP版本:" << alson->getDeviceInfo("BSP版本");
+    qDebug() << "CAN数量:" << alson->getDeviceInfo("CAN数量");
+    qDebug() << "CAN状态:" << alson->getDeviceInfo("CAN状态");
+    qDebug() << "CPU温度:" << alson->getDeviceInfo("CPU温度");
+
     qDebug() << "库版本:" << alson->getApiVersion();
-    qDebug() << Qt::endl;
+    ui->version->setText(alson->getApiVersion());
+    qDebug() << "";
 }
 
 void Widget::on_horizontalSlider_valueChanged(int value)
@@ -132,14 +150,14 @@ void Widget::on_horizontalSlider_valueChanged(int value)
     bool succes = alson->setBrightness(value);
     qDebug() << "亮度是否设置成功:" << (succes ? "成功" : "失败");
     qDebug() << "当前亮度值:" << alson->getBrightness();
-    qDebug() << Qt::endl;
+
+    alson->setSaveRetain("light",value);
 }
 
 void Widget::Light()
 {
     qDebug() << "当前亮度值:" << alson->getBrightness();
     qDebug() << "最大亮度值:" << alson->getMaxBrightness();
-    qDebug() << Qt::endl;
 }
 
 void Widget::RTC()
@@ -147,7 +165,48 @@ void Widget::RTC()
     //bool succes = alson->setRTC("2026-06-29 11:58:00");
     //qDebug() << "时间是否设置成功:" << (succes ? "成功" : "失败");
     qDebug() << "当前系统时间:" << alson->getRTC();
-    qDebug() << Qt::endl;
+    qDebug() << "";
+}
+
+void Widget::RetainData()
+{
+    QVariant cout = alson->getReadRetain("cout", 0);
+    qDebug() << "Reatin文件读取1:" << cout;
+
+    auto v1 = alson->getReadRetain("testInt", 0);
+    auto v2 = alson->getReadRetain("testFloat", 0.00);
+    auto v3 = alson->getReadRetain("testQString", QString("hello"));
+
+    auto c1 = alson->getReadRetain("color", QColor(255, 0, 0));
+    auto c2 = alson->getReadRetain("point", QPoint(100, 0));
+    auto c3 = alson->getReadRetain("time", QDateTime::currentDateTime());
+
+    qDebug() << "Reatin文件读取2:" << v1 << v2 << v3 << c1 << c2 << c3;
+
+    if(cout != 100){
+        alson->setSaveRetain("cout", 100);
+
+        alson->setSaveRetain("testInt", 200);
+        alson->setSaveRetain("testFloat", 88.88);
+        alson->setSaveRetain("testQString", QString("word"));
+
+        alson->setSaveRetain("color", QColor(255, 255, 0));
+        alson->setSaveRetain("point", QPoint(100, 200));
+        alson->setSaveRetain("time", QDateTime::currentDateTime());
+
+        qDebug() << "Reatin文件保存...";
+    }
+
+    QVariant v4 = alson->getReadRetain("testInt").toInt();
+    QVariant v5 = alson->getReadRetain("testFloat").toFloat();
+    QVariant v6 = alson->getReadRetain("testQString");
+
+    QVariant c4 = alson->getReadRetain("color").value<QColor>();
+    QVariant c5 = alson->getReadRetain("point").toPoint();
+    QVariant c6 = alson->getReadRetain("time").toString();
+
+    qDebug() << "Reatin文件读取3:" << alson->getReadRetain("cout") << v4 << v5 << v6 << c4 << c5 << c6;
+    qDebug() << "";
 }
 
 

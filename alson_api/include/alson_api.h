@@ -21,11 +21,6 @@ public:
      */
     static Alson_api* instance();
 
-    /**
-     * @brief 释放单例实例
-     */
-    static void destroy();
-
     // CAN
     /**
      * @brief 启动CAN接口
@@ -91,7 +86,8 @@ public:
 
     //系统信息
     /**
-     * @type 板卡型号 CPU核心数 CPU架构 CPU频率 DDR容量 eMMC容量 系统版本 设备序列号 MAC地址 网络节点状态 CPU负载率
+     * @type 板卡型号 CPU核心数 CPU架构 CPU频率 内存容量 闪存容量 系统版本 MAC地址 网络节点状态 CPU负载率
+     * @type 料号 驱动版本 构建时间 屏幕分辨率 可用空间 BSP版本 CAN数量 CAN状态 CPU温度
      */
     QString getDeviceInfo(const QString &type);
 
@@ -127,6 +123,23 @@ public:
      */
     QString getRTC() const;
 
+    //Retain 存储功能
+    /**
+     * @brief 数据存储
+     */
+    void setSaveRetain(const QString &key, const QVariant &value);
+
+    /**
+     * @brief 读取保存的数据
+     * @return QVariant
+     */
+    QVariant getReadRetain(const QString &key) const;
+    QVariant getReadRetain(const QString &key, const QVariant &defaultValue) const;
+    /**
+     * @brief 清除所有数据
+     */
+    void clearRetain();
+
 signals:
     // CAN
     void frameReceived(const QString &interface, uint id,const QByteArray &data, bool isExtended); // 接收到CAN帧信号
@@ -139,7 +152,6 @@ private:
     explicit Alson_api(QObject *parent = nullptr);
     ~Alson_api() override;
 
-    static Alson_api *m_instance;
     Alson_apiPrivate *d = nullptr;
 };
 

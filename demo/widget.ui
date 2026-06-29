@@ -16,7 +16,7 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>560</x>
      <y>20</y>
      <width>100</width>
      <height>30</height>
@@ -29,7 +29,7 @@
   <widget class="QSlider" name="horizontalSlider">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>670</x>
      <y>20</y>
      <width>255</width>
      <height>30</height>
@@ -79,20 +79,20 @@ QSlider::sub-page:horizontal {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>60</y>
+     <y>20</y>
      <width>100</width>
      <height>30</height>
     </rect>
    </property>
    <property name="text">
-    <string>时间设置：</string>
+    <string>时间显示：</string>
    </property>
   </widget>
   <widget class="QLabel" name="dateTime">
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>60</y>
+     <y>20</y>
      <width>200</width>
      <height>30</height>
     </rect>
@@ -105,7 +105,7 @@ QSlider::sub-page:horizontal {
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>100</y>
+     <y>60</y>
      <width>100</width>
      <height>30</height>
     </rect>
@@ -118,7 +118,7 @@ QSlider::sub-page:horizontal {
    <property name="geometry">
     <rect>
      <x>130</x>
-     <y>100</y>
+     <y>60</y>
      <width>200</width>
      <height>30</height>
     </rect>
@@ -130,8 +130,8 @@ QSlider::sub-page:horizontal {
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>20</y>
+     <x>20</x>
+     <y>100</y>
      <width>100</width>
      <height>30</height>
     </rect>
@@ -143,14 +143,147 @@ QSlider::sub-page:horizontal {
   <widget class="QLabel" name="version">
    <property name="geometry">
     <rect>
-     <x>640</x>
-     <y>20</y>
+     <x>130</x>
+     <y>100</y>
      <width>200</width>
      <height>30</height>
     </rect>
    </property>
    <property name="text">
     <string>v 0.0.0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>料号：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="pn">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>140</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>驱动版本：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="driverversion">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>180</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>v 0.0.0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>分辨率：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="resolution">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>220</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="canstatus">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>260</y>
+     <width>160</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>260</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CAN状态：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>300</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CPU温度：</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="cpuTemp">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>300</y>
+     <width>200</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>

@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
         file.write(name.toUtf8());
         file.close();
         qDebug() << "当前模式: " << name;
+        qDebug() << " ";
     }
 
     Widget w;

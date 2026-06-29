@@ -3,6 +3,7 @@
 #include "devicesinfo.h"
 #include "brightness.h"
 #include "rtc.h"
+#include "retain.h"
 
 class Alson_apiPrivate
 {
@@ -11,23 +12,14 @@ public:
     DevicesInfo *m_info = nullptr;
     Brightness *m_bright = nullptr;
     RTC *m_rtc = nullptr;
+    Retain *m_retain = nullptr;
 };
 
 // 静态成员初始化
-Alson_api* Alson_api::m_instance = nullptr;
-
 Alson_api* Alson_api::instance()
 {
-    if (!m_instance) {
-        m_instance = new Alson_api();
-    }
-    return m_instance;
-}
-
-void Alson_api::destroy()
-{
-    delete m_instance;
-    m_instance = nullptr;
+    static Alson_api instance;
+    return &instance;
 }
 
 Alson_api::Alson_api(QObject *parent)
@@ -38,6 +30,7 @@ Alson_api::Alson_api(QObject *parent)
     d->m_info = new DevicesInfo(this);
     d->m_bright = new Brightness(this);
     d->m_rtc = new RTC(this);
+    d->m_retain = new Retain(this);
 
     // 转发信号
     connect(d->m_worker, &CanWorker::frameReceived, this, &Alson_api::frameReceived);
@@ -143,4 +136,27 @@ bool Alson_api::setRTC(const QString &datetime)
 QString Alson_api::getRTC() const
 {
     return d->m_rtc->readDateTime();
+}
+
+/**
+ *@brief Retain
+**/
+void Alson_api::setSaveRetain(const QString &key, const QVariant &value)
+{
+    d->m_retain->setSaveRetain(key,value);
+}
+
+QVariant Alson_api::getReadRetain(const QString &key) const
+{
+    return  d->m_retain->getReadRetain(key);
+}
+
+QVariant Alson_api::getReadRetain(const QString &key, const QVariant &defaultValue) const
+{
+    return  d->m_retain->getReadRetain(key,defaultValue);
+}
+
+void Alson_api::clearRetain()
+{
+    d->m_retain->clear();
 }
